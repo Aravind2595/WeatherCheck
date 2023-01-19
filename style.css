@@ -1,0 +1,14 @@
+body {
+  background-image: url(./images/weather.jpg);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+#card-dec {
+  border-radius: 25px;
+  background-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px #333;
+  padding: 30px;
+  font-weight: bold;
+}

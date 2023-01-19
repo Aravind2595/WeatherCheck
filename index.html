@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather Forcast</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <p class="text-center fs-1 fw-bold text-light">WEATHER FORCAST</p>
+    <div class="row">
+      <div class="col-lg-4 col-md-4 col-sm-3 col-2"></div>
+      <div class="col-lg-4 col-md-4 col-sm-6 col-8">
+        <div class="input-group mb-3">
+          <input
+            id="city"
+            type="text"
+            class="form-control"
+            placeholder="Enter the city name"
+            aria-label="Enter the city name"
+            aria-describedby="button-addon2"
+          />
+          <button
+            onclick="fetchDetails()"
+            class="btn btn-secondary"
+            type="button"
+            id="button-addon2"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-search"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-3 col-2"></div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4 col-md-4 col-sm-3 col-2"></div>
+      <div
+        id="result"
+        class="col-lg-4 col-md-4 col-sm-6 col-8 ps-lg-4 ps-md-2 ps-sm-4 ps-0 ms-lg-3"
+      ></div>
+      <div class="col-lg-4 col-md-4 col-sm-3 col-2"></div>
+    </div>
+  </body>
+  <script>
+    function fetchDetails() {
+      fetch(
+        `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&appid=7ed3774a2712496a779cb5f377db2acd`
+      ).then((data) => {
+        data.json().then((output) => {
+          displayDetails(output);
+        });
+      });
+    }
+
+    function displayDetails(output) {
+      let html_Data = "";
+      html_Data = `<div class="card" id="card-dec" style="width: 18rem">
+          <div class="card-body" >
+            <h2 class="card-title">${output.name}</h2>
+            <img src="https://openweathermap.org/img/wn/${output.weather[0].icon}@2x.png" alt="#">
+            <h6 class="card-subtitle mb-2 fw-bold">Weather:${output.weather[0].main}</h6>
+            <h6 class="card-subtitle mb-2 fw-bold"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-thermometer-high" viewBox="0 0 16 16">
+            <path d="M9.5 12.5a1.5 1.5 0 1 1-2-1.415V2.5a.5.5 0 0 1 1 0v8.585a1.5 1.5 0 0 1 1 1.415z"/>
+            <path d="M5.5 2.5a2.5 2.5 0 0 1 5 0v7.55a3.5 3.5 0 1 1-5 0V2.5zM8 1a1.5 1.5 0 0 0-1.5 1.5v7.987l-.167.15a2.5 2.5 0 1 0 3.333 0l-.166-.15V2.5A1.5 1.5 0 0 0 8 1z"/>
+            </svg>Temperature:${output.main.temp_max}°F</h6>
+            <h6 class="card-subtitle mb-2 fw-bold"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-thermometer-low" viewBox="0 0 16 16">
+            <path d="M9.5 12.5a1.5 1.5 0 1 1-2-1.415V9.5a.5.5 0 0 1 1 0v1.585a1.5 1.5 0 0 1 1 1.415z"/>
+            <path d="M5.5 2.5a2.5 2.5 0 0 1 5 0v7.55a3.5 3.5 0 1 1-5 0V2.5zM8 1a1.5 1.5 0 0 0-1.5 1.5v7.987l-.167.15a2.5 2.5 0 1 0 3.333 0l-.166-.15V2.5A1.5 1.5 0 0 0 8 1z"/>
+            </svg>Temperature:${output.main.temp_min}°F</h6>
+            <h6 class="card-subtitle mb-2 fw-bold"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-thermometer-half" viewBox="0 0 16 16">
+            <path d="M9.5 12.5a1.5 1.5 0 1 1-2-1.415V6.5a.5.5 0 0 1 1 0v4.585a1.5 1.5 0 0 1 1 1.415z"/>
+            <path d="M5.5 2.5a2.5 2.5 0 0 1 5 0v7.55a3.5 3.5 0 1 1-5 0V2.5zM8 1a1.5 1.5 0 0 0-1.5 1.5v7.987l-.167.15a2.5 2.5 0 1 0 3.333 0l-.166-.15V2.5A1.5 1.5 0 0 0 8 1z"/>
+            </svg>Feels Like:${output.main.feels_like}°F</h6>
+            <h6 class="card-subtitle mb-2 fw-bold"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-wind" viewBox="0 0 16 16">
+            <path d="M12.5 2A2.5 2.5 0 0 0 10 4.5a.5.5 0 0 1-1 0A3.5 3.5 0 1 1 12.5 8H.5a.5.5 0 0 1 0-1h12a2.5 2.5 0 0 0 0-5zm-7 1a1 1 0 0 0-1 1 .5.5 0 0 1-1 0 2 2 0 1 1 2 2h-5a.5.5 0 0 1 0-1h5a1 1 0 0 0 0-2zM0 9.5A.5.5 0 0 1 .5 9h10.042a3 3 0 1 1-3 3 .5.5 0 0 1 1 0 2 2 0 1 0 2-2H.5a.5.5 0 0 1-.5-.5z"/>
+            </svg>Wind:${output.wind.speed}</h6>
+            
+        </div>`;
+      result.innerHTML = html_Data;
+    }
+  </script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"
+  ></script>
+</html>
